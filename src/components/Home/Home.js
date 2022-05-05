@@ -1,50 +1,24 @@
 import { useState} from 'react'
 
-const title = 'This is my new blog, welcome!';
-const likes = 10;
-const link = 'https://www.vpl.ca/'
-
 const Home = () => {
     
-    // let name = 'mario'; //this variable is not reactive, that is, it doesn't ask React to update it on click in the browser (if we want to change name on click). We need a hook - a special function in React)
+    // how to create data to populate the blog
+    const [blogs, setBlogs] = useState([
+        {title: "This is my new blog", body: "It finaly happened! I got my very own site.", author: "Irina", id: 1},
+        {title: "Minecraft, minecraft, minecraft!", body: "I just hacke dmy mom's site, mwahaha!", author: "Sasha", id: 2},
+        {title: "I've been hacked!", body: "Oh no, it's the minecraft fan haha", author: "Irina", id: 3}
+    ]);
 
-    // How to make a reactive value? 
-    const [name, setName] = useState('mario'); //we create a const and use array destructuring to grab two values that the hook returns to us, the first one is the initial one that we can call anything, e.g., 'name'; the 2nd value is th fun we use to change that value: setName. Then we go to handle click fn and envoke setName fn with an argument to which we want to change
-
-    const [age, setAge] = useState(25)
-
-    // create a function to handle button click inside the component
-    const handleClick = () => {
-        setName('luigi'); //setName is from line 12
-        setAge(50);
-    }
-    // create a function that takes a name as a parameter -see lines 23 and on 
-    // const handleClickAgain = (name, e) => {
-    //     console.log('Hello' + name, e)
-    // }
-
+    // not cool to hard code as divs in the following div bc the number of blogs can change! We gonna use map to iterate through each and create a template
     return (
         <div className="home">
-            <h1>Homepage</h1>
-            
-            {/* if we want to add an argument to the button, we wrap in into an anonymous funciton. We don't invoke it, we just reference it. IT's not gonna be invoke right away because we don't invoke this anonymous fn untill the click*/}
-            {/* <button onClick={(e) =>{
-                handleClickAgain(' Mario', e)
-            }}>
-                Click me again
-            </button> */}
-                {/* we can also turn this fn into a one-liner, like so:  <button onClick={() => handleClickAgain(' Mario')}>Click me again</button> */}
+            {blogs.map((blog ) => ( //blogs is from line 6 - first value in that array; we call map method on it which fires a callback fn on each item; blog is each item in the array and when we cycle through it, we get access to the title, author, body, id; template will be returned after the arrow in parenthesis
 
-
-            {/* add the function from line 9 to the button with curly brackets, no () because that would invoke it right away */}
-            <button onClick={handleClick}>Click me</button> 
-            <p>{name} is {age} years old</p>
-
-            <h2>{title}</h2> 
-            <p>Liked {likes} times</p>
-            <p>And this is the pi value: {Math.PI}</p>
-            <p>Why not add a random number, too? {Math.random()}</p>
-            <p>This is my favorite website: <a href={link}>Vancouver Public Library</a> </p>
+                <div className='blog-preview' key={blog.id}>
+                    <h2>{blog.title}</h2>
+                    <p>Written by: {blog.author}</p>
+                </div> //this is the template
+            ))}
         </div>
     );
 }
